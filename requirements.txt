@@ -1,0 +1,9 @@
+# Tested-against versions are recorded in models/model_metadata.json after a run.
+numpy
+scipy
+pandas
+scikit-learn>=1.3
+nltk>=3.8
+matplotlib
+joblib
+pytest
