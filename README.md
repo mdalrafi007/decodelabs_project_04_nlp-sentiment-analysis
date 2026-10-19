@@ -3,8 +3,7 @@
 Classify product reviews as **Positive** or **Negative** using an NLTK preprocessing pipeline,
 TF-IDF features, and two classifiers (Multinomial Naive Bayes and Linear SVM) compared fairly.
 
-> **Status:** the code is complete, but this README contains no metrics on purpose. Run the
-> project, then use the numbers in `reports/results/RESULTS.md` (generated from your actual run).
+> **Status:** executed end to end on the real UCI dataset in Google Colab (Python 3.13). All 18 tests passed (`pytest`, 11.75 s). All numbers below come from that run and are also in `reports/results/RESULTS.md` and `metrics.json`.
 
 ## DecodeLabs requirements covered
 | Requirement | Where |
@@ -21,6 +20,8 @@ UCI *Sentiment Labelled Sentences*, Amazon subset (`amazon_cells_labelled.txt`):
 with the split; treat them as estimates, not guarantees.
 
 ## Setup on Android with Termux
+> Note: on the author's phone, `pip` could not build scikit-learn in Termux (SciPy needs a Fortran compiler), so the experiment was run in Google Colab with the same code. See "Run in Google Colab" below.
+
 1. Install Termux (from F-Droid or GitHub releases) and run `termux-setup-storage`.
 2. Copy the project zip from Downloads and unzip:
    ```bash
@@ -78,6 +79,82 @@ Python 3.10+ recommended. No GPU or API key needed.
 - Outputs: `reports/figures/` (class balance, review lengths, confusion matrices, model comparison),
   `reports/results/` (`RESULTS.md`, `metrics.json`, `errors.csv`, `top_features.csv`).
 
+## Run in Google Colab (what was actually used)
+1. Upload `nlp-sentiment-analysis.zip` to a Colab notebook, then:
+   ```
+   !unzip -q nlp-sentiment-analysis.zip
+   %cd nlp-sentiment-analysis
+   !pip -q install nltk
+   !python -m nltk.downloader punkt_tab punkt stopwords wordnet averaged_perceptron_tagger_eng averaged_perceptron_tagger
+   !python -m src.train
+   !python -m pytest -q
+   ```
+   Let the NLTK download finish before training; an interrupted download leaves a corrupt `wordnet.zip`
+   (fix: `!rm -rf /root/nltk_data` and download again).
+
+## Results (actual run, seed 42)
+**Data:** UCI Amazon subset. 1000 rows loaded, 990 after cleaning (497 negative, 493 positive: balanced,
+so accuracy is a fair headline metric here). Stratified split: 792 train / 198 test (99 + 99).
+
+**Model selection** (5-fold CV on the training split only, F1): Naive Bayes 0.8264, Linear SVM 0.8332.
+Selected: **Linear SVM** (`C=1.0`, `min_df=1`, ngram range `(1, 2)`).
+
+**Held-out test set** (positive class = Positive):
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| Multinomial Naive Bayes | 0.8283 | 0.8351 | 0.8182 | 0.8265 | 0.8960 |
+| Linear SVM (selected) | 0.8434 | 0.8469 | 0.8384 | 0.8426 | 0.9085 |
+
+Confusion matrices (rows = actual Neg/Pos, columns = predicted Neg/Pos): Naive Bayes `[[83, 16], [18, 81]]`,
+Linear SVM `[[84, 15], [16, 83]]`. For the SVM that is 15 false positives (negative reviews called positive)
+and 16 false negatives (positive reviews called negative).
+
+**How much to trust the gap:** with 198 test reviews, one review is about 0.5 percentage points. The SVM's
+lead over Naive Bayes is about 3 reviews, so the two models are close; this is not strong evidence that one
+is better. The selection itself used cross-validation, not the test set.
+
+Figures: `reports/figures/` (class distribution, review lengths, confusion matrices, model comparison).
+
+### What the model learned
+Strongest SVM features (from `top_features.csv`): the single word `not` is the strongest negative signal
+(weight -2.63), followed by `poor`, `bad`, `break`, `return`, `terrible`, `horrible`; strongest positive:
+`great`, `good`, `best`, `love`, `excellent`, `well`. Bigrams work as designed: `not work` pushes Negative
+and `not regret` pushes Positive. Some features look specific to this electronics-review data (`plug`,
+`instruction`, `price`, `first`). These are associations in this dataset, not universal facts about words.
+
+### Error analysis (SVM test mistakes)
+From the misclassified reviews printed in the run (a qualitative reading, not a tally):
+- **Negation inside positive reviews:** "I did not have any problem with this item and would order it
+  again" and "I haven't had any problem with it" were predicted Negative. Bigrams help with phrases like
+  `not work` but cannot fully handle negated problems that signal satisfaction.
+- **Mixed or conceding sentences:** "It was an inexpensive piece, but I would still have expected better
+  quality" and "The camera, although rated at an impressive 1.3 megapixels, renders images that fall..."
+  were predicted Positive, apparently pulled by `impressive`-style words.
+- **Sarcasm and implied complaints:** "I'm sure this item would work well.. if I ever recieve it!" and
+  "It defeats the purpose of a bluetooth headset" were predicted Positive; the second contains no
+  explicit sentiment word.
+- **Rare words and typos:** "I really abhor it" and "PRETTY USELESS!" were predicted Positive, and
+  "I'm still infatuated with this phone" Negative. A small training set may not contain these words
+  (a plausible explanation, not verified).
+- **Neutral or list-style positives:** "The delivery was on time", "Clear Skype Calls, Long Battery Life,
+  Long Range." and "Setup went very smoothly" were predicted Negative.
+- A few labels are debatable (for example "Excellent starter wireless headset." is labelled Negative),
+  which also limits the achievable score.
+
+### Example predictions (illustrative inputs, not evaluation data; SVM decision score, not a probability)
+| Review | Prediction | Score |
+|---|---|---|
+| Great battery life, I love this phone. | Positive | +1.19 |
+| Terrible quality, it broke after two days. | Negative | -1.21 |
+| This is not good at all. | Negative | -0.78 |
+| Not bad, actually works fine. | Negative (wrong) | -0.39 |
+| It's okay I guess. | Negative | -0.10 |
+| The charger arrived on Tuesday. | Negative | -0.10 |
+
+The last two scores sit close to zero: the model is forced to choose Positive or Negative and has no
+Neutral class. Negated praise ("Not bad") is a real failure case.
+
 ## Repository structure
 ```
 src/            data_loader, preprocessing, model, eda, evaluate, train, predict
@@ -100,7 +177,7 @@ across library versions. Versions used are recorded in `models/model_metadata.js
 your own observations in the markdown cells after each output.
 
 ## Known limitations
-Small dataset; short single-sentence reviews; sarcasm, mixed sentiment and spelling errors are hard for
+Small dataset (990 reviews, 198 test); binary labels only (no Neutral); short single-sentence reviews; sarcasm, mixed sentiment and spelling errors are hard for
 bag-of-words models; features reflect associations in this data, not universal word meanings; results are
 for English product reviews only.
 
