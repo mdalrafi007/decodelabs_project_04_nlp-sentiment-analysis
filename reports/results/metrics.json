@@ -1,0 +1,146 @@
+{
+  "seed": 42,
+  "data": {
+    "rows_loaded": 1000,
+    "malformed_lines_skipped": 0,
+    "missing_or_empty_text": 0,
+    "texts_with_conflicting_labels_dropped": 0,
+    "exact_duplicates_dropped": 10,
+    "rows_after_cleaning": 990,
+    "class_counts": {
+      "negative_0": 497,
+      "positive_1": 493
+    }
+  },
+  "eda": {
+    "n_reviews": 990,
+    "columns": {
+      "text": "object",
+      "label": "int64"
+    },
+    "class_counts": {
+      "Negative": 497,
+      "Positive": 493
+    },
+    "word_length_overall": {
+      "count": 990.0,
+      "mean": 10.31,
+      "std": 6.68,
+      "min": 1.0,
+      "25%": 5.0,
+      "50%": 9.0,
+      "75%": 15.0,
+      "max": 30.0
+    },
+    "word_length_by_class": {
+      "Negative": {
+        "count": 497.0,
+        "mean": 10.59,
+        "std": 6.58,
+        "min": 1.0,
+        "25%": 5.0,
+        "50%": 10.0,
+        "75%": 15.0,
+        "max": 30.0
+      },
+      "Positive": {
+        "count": 493.0,
+        "mean": 10.01,
+        "std": 6.78,
+        "min": 1.0,
+        "25%": 4.0,
+        "50%": 8.0,
+        "75%": 14.0,
+        "max": 30.0
+      }
+    },
+    "char_length_mean": 55.54,
+    "examples": {
+      "Negative": [
+        "So there is no way for me to plug it in here in the US unless I go by a converter.",
+        "Tied to charger for conversations lasting more than 45 minutes.MAJOR PROBLEMS!!",
+        "I have to jiggle the plug to get it to line up right to get decent volume."
+      ],
+      "Positive": [
+        "Good case, Excellent value.",
+        "Great for the jawbone.",
+        "The mic is great."
+      ]
+    }
+  },
+  "split": {
+    "train": 792,
+    "test": 198,
+    "test_size": 0.2
+  },
+  "models": {
+    "naive_bayes": {
+      "cv_f1": 0.8263891959451006,
+      "best_params": {
+        "clf__alpha": 0.3,
+        "tfidf__min_df": 1,
+        "tfidf__ngram_range": [
+          1,
+          2
+        ]
+      },
+      "test": {
+        "accuracy": 0.8282828282828283,
+        "precision": 0.8350515463917526,
+        "recall": 0.8181818181818182,
+        "f1": 0.826530612244898,
+        "roc_auc": 0.8960310172431385,
+        "confusion_matrix": [
+          [
+            83,
+            16
+          ],
+          [
+            18,
+            81
+          ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n    Negative       0.82      0.84      0.83        99\n    Positive       0.84      0.82      0.83        99\n\n    accuracy                           0.83       198\n   macro avg       0.83      0.83      0.83       198\nweighted avg       0.83      0.83      0.83       198\n"
+      }
+    },
+    "linear_svm": {
+      "cv_f1": 0.833232572814039,
+      "best_params": {
+        "clf__C": 1.0,
+        "tfidf__min_df": 1,
+        "tfidf__ngram_range": [
+          1,
+          2
+        ]
+      },
+      "test": {
+        "accuracy": 0.8434343434343434,
+        "precision": 0.8469387755102041,
+        "recall": 0.8383838383838383,
+        "f1": 0.8426395939086294,
+        "roc_auc": 0.9084787266605449,
+        "confusion_matrix": [
+          [
+            84,
+            15
+          ],
+          [
+            16,
+            83
+          ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n    Negative       0.84      0.85      0.84        99\n    Positive       0.85      0.84      0.84        99\n\n    accuracy                           0.84       198\n   macro avg       0.84      0.84      0.84       198\nweighted avg       0.84      0.84      0.84       198\n"
+      }
+    }
+  },
+  "selected_model": "linear_svm",
+  "selection_rule": "highest mean cross-validated F1 on the training split",
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "scikit_learn": "1.6.1",
+    "nltk": "3.9.1",
+    "pandas": "2.2.3",
+    "numpy": "2.1.3"
+  }
+}

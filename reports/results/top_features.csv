@@ -1,0 +1,31 @@
+direction,feature,weight
+Negative,not,-2.6314020707373293
+Negative,poor,-1.5184416334702902
+Negative,bad,-1.3906612274204146
+Negative,break,-1.2973928208623582
+Negative,first,-1.136530126513687
+Negative,return,-1.043722328454696
+Negative,terrible,-1.0125123307496
+Negative,horrible,-0.9086633475313924
+Negative,not work,-0.8946280296445459
+Negative,plug,-0.8675335672547132
+Negative,unreliable,-0.8636678843214518
+Negative,disappointed,-0.862940045816353
+Negative,waste,-0.8380833830365824
+Negative,disappoint,-0.7789062232835046
+Negative,instruction,-0.7585609659738595
+Positive,great,2.5248807340123194
+Positive,good,1.883780864434059
+Positive,best,1.5431127088315324
+Positive,love,1.4919417962044326
+Positive,excellent,1.429507792870418
+Positive,well,1.3490221462585508
+Positive,price,1.1833491372447602
+Positive,nice,1.1048218331875463
+Positive,easy,1.0355161584644255
+Positive,work,1.0016695308224546
+Positive,not regret,0.9749356913605627
+Positive,everything,0.955757790522876
+Positive,recommend,0.9443776774638641
+Positive,cool,0.9240857577567624
+Positive,happy,0.9139805335081767

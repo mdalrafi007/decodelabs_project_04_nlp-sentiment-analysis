@@ -1,0 +1,42 @@
+text,actual,predicted,correct,error_type
+I've also had problems with the phone reading the memory card in which I always turn it on and then off again.,Negative,Positive,False,false_positive
+The camera on the phone may be used as a dustpan when indoors... I'd rather be using a disposable then this.,Negative,Positive,False,false_positive
+It makes very strange ticking noises before it ends the call.,Negative,Positive,False,false_positive
+"Small, sleek, impressive looking, practical setup with ample storage in place.",Positive,Negative,False,false_negative
+The delivery was on time.,Positive,Negative,False,false_negative
+"The tracfonewebsite is user friendly and makes it easy toactivate, etc.",Positive,Negative,False,false_negative
+Disappointing accessory from a good manufacturer.,Negative,Positive,False,false_positive
+I ended up sliding it on the edge of my pants or back pockets instead.,Positive,Negative,False,false_negative
+I did not have any problem with this item and would order it again if needed.,Positive,Negative,False,false_negative
+Battery charge-life is quite long.,Positive,Negative,False,false_negative
+"It was an inexpensive piece, but I would still have expected better quality.",Negative,Positive,False,false_positive
+)Setup couldn't have been simpler.,Positive,Negative,False,false_negative
+"I have this phone and it is a thorn in my side, I really abhor it.",Negative,Positive,False,false_positive
+"The camera, although rated at an impressive 1.3 megapixels, renders images that fall well below expectations of such a relatively high resolution.",Negative,Positive,False,false_positive
+Excellent starter wireless headset.,Negative,Positive,False,false_positive
+I was looking for this headset for a long time and now that I've got it I couldn't be happier.,Positive,Negative,False,false_negative
+I've had this bluetoooth headset for some time now and still not comfortable with the way it fits on the ear.,Negative,Positive,False,false_positive
+As I said above....PRETTY USELESS!,Negative,Positive,False,false_positive
+Still Waiting...... I'm sure this item would work well.. if I ever recieve it!,Negative,Positive,False,false_positive
+I'm still infatuated with this phone.,Positive,Negative,False,false_negative
+"For a product that costs as much as this one does, I expect it to work far better and with greater ease than this thing does.",Negative,Positive,False,false_positive
+This is definitely a must have if your state does not allow cell phone usage while driving.,Positive,Negative,False,false_negative
+If you are Razr owner...you must have this!,Positive,Negative,False,false_negative
+I have read other's reviews here but I haven't had any problem with it.,Positive,Negative,False,false_negative
+"It's so stupid to have to keep buying new chargers, car chargers, cradles, headphones and car kits every time a new phone comes out.",Negative,Positive,False,false_positive
+"The internet access was fine, it the rare instance that it worked.",Negative,Positive,False,false_positive
+It is a joy to use.,Positive,Negative,False,false_negative
+"Clear Skype Calls, Long Battery Life, Long Range.",Positive,Negative,False,false_negative
+It defeats the purpose of a bluetooth headset.,Negative,Positive,False,false_positive
+Setup went very smoothly.,Positive,Negative,False,false_negative
+I have yet to run this new battery below two bars and that's three days without charging.,Positive,Negative,False,false_negative
+Great Pocket PC / phone combination.,Positive,Positive,True,
+Cumbersome design.,Negative,Negative,True,
+worthless product.,Negative,Negative,True,
+Stay Away From the Q!.,Negative,Negative,True,
+So just beware.,Negative,Negative,True,
+The headsets are easy to use and everyone loves them.,Positive,Positive,True,
+"Using all earpieces, left or right, this thing will not stay on my ear.",Negative,Negative,True,
+The holster that arrived did not match the photo in the ad.,Negative,Negative,True,
+Works as described.,Positive,Positive,True,
+"The sound quality for the device is unacceptable.Unless you are in a really quiet area, you almost hear nothing.",Negative,Negative,True,
